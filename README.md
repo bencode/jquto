@@ -1,3 +1,10 @@
+打包命令：
+    
+    $ grunt custom:-sizzle
+
+================
+
+
 [jQuery](http://jquery.com/) - New Wave JavaScript
 ==================================================
 
