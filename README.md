@@ -2,6 +2,13 @@
     
     $ grunt custom:-sizzle
 
+文件大小：
+
+    Uncompressed size: 186210 bytes.
+    Compressed size: 15071 bytes gzipped (65416 bytes minified).
+    
+缩略文件不含：sizzle、event-alias、deprecated、exports模块
+
 ================
 
 
