@@ -1,3 +1,4 @@
+define(function (require, exports, module) {
 /*!
  * jQuery JavaScript Library v@VERSION
  * http://jquery.com/
@@ -11,7 +12,7 @@
  *
  * Date: @DATE
  */
-(function( window, undefined ) {
+return (function( window, undefined ) {
 
 // Can't do this because several apps including ASP.NET trace
 // the stack via arguments.caller.callee and Firefox dies if

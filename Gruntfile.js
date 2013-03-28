@@ -3,9 +3,9 @@ module.exports = function( grunt ) {
 	"use strict";
 
 	var distpaths = [
-			"dist/jquery.js",
-			"dist/jquery.min.map",
-			"dist/jquery.min.js"
+			"dist/jquery-debug.js",
+			"dist/jquery.map",
+			"dist/jquery.js"
 		],
     gzip = require("gzip-js"),
 		readOptionalJSON = function( filepath ) {
@@ -20,7 +20,7 @@ module.exports = function( grunt ) {
 		pkg: grunt.file.readJSON("package.json"),
 		dst: readOptionalJSON("dist/.destination.json"),
 		compare_size: {
-			files: [ "dist/jquery.js", "dist/jquery.min.js" ],
+			files: [ "dist/jquery-debug.js", "dist/jquery.js" ],
 			options: {
 				compress: {
 					gz: function( contents ) {
@@ -32,12 +32,12 @@ module.exports = function( grunt ) {
 		},
 		selector: {
 			destFile: "src/selector-sizzle.js",
-			apiFile: "src/sizzle-jquery.js",
+			apiFile: "src/sizzle-jquery-debug.js",
 			srcFile: "src/sizzle/dist/sizzle.js"
 		},
 		build: {
 			all:{
-				dest: "dist/jquery.js",
+				dest: "dist/jquery-debug.js",
 				src: [
 					"src/intro.js",
 					"src/core.js",
@@ -53,7 +53,7 @@ module.exports = function( grunt ) {
 					"src/manipulation.js",
 					{ flag: "css", src: "src/css.js" },
 					"src/serialize.js",
-					{ flag: "event-alias", src: "src/event-alias.js" },
+					//{ flag: "event-alias", src: "src/event-alias.js" },
 					{ flag: "ajax", src: "src/ajax.js" },
 					{ flag: "ajax/script", src: "src/ajax/script.js", needs: ["ajax"]  },
 					{ flag: "ajax/jsonp", src: "src/ajax/jsonp.js", needs: [ "ajax", "ajax/script" ]  },
@@ -61,9 +61,9 @@ module.exports = function( grunt ) {
 					{ flag: "effects", src: "src/effects.js", needs: ["css"] },
 					{ flag: "offset", src: "src/offset.js", needs: ["css"] },
 					{ flag: "dimensions", src: "src/dimensions.js", needs: ["css"] },
-					{ flag: "deprecated", src: "src/deprecated.js" },
+					//{ flag: "deprecated", src: "src/deprecated.js" },
 
-					"src/exports.js",
+					//"src/exports.js",
 					"src/outro.js"
 				]
 			}
@@ -71,7 +71,7 @@ module.exports = function( grunt ) {
 
 		jshint: {
 			dist: {
-				src: [ "dist/jquery.js" ],
+				src: [ "dist/jquery-debug.js" ],
 				options: {
 					jshintrc: "src/.jshintrc"
 				}
@@ -104,11 +104,11 @@ module.exports = function( grunt ) {
 		uglify: {
 			all: {
 				files: {
-					"dist/jquery.min.js": [ "dist/jquery.js" ]
+					"dist/jquery.js": [ "dist/jquery-debug.js" ]
 				},
 				options: {
 					banner: "/*! jQuery v<%= pkg.version %> | (c) 2005, 2013 jQuery Foundation, Inc. | jquery.org/license */",
-					sourceMap: "dist/jquery.min.map",
+					sourceMap: "dist/jquery.map",
 					beautify: {
 						ascii_only: true
 					}
