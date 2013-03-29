@@ -1,16 +1,23 @@
-打包命令：
+# 基于jQuery 2.x 和 Zepto 1.x 的移动基础类库
+
+#### 打包命令：
     
     $ grunt custom:-sizzle
 
-文件大小：
+#### 文件大小：
 
-    Uncompressed size: 167218 bytes.
-    Compressed size: 13246 bytes gzipped (57416 bytes minified).
+    Uncompressed size: 178255 bytes.
+    Compressed size: 14312 bytes gzipped (62028 bytes minified).
+
+##### 模块说明
     
-缩略文件不含：sizzle、event-alias、effects、deprecated、exports模块
+不含jQuery模块：sizzle、event-alias、effects、deprecated、exports
+包含Zepto模块：selector.js、fx.js、fx_methods.js、touch.js
 
 ================
 
+
+----------------
 
 [jQuery](http://jquery.com/) - New Wave JavaScript
 ==================================================
