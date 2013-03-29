@@ -58,7 +58,7 @@ module.exports = function( grunt ) {
 					{ flag: "ajax/script", src: "src/ajax/script.js", needs: ["ajax"]  },
 					{ flag: "ajax/jsonp", src: "src/ajax/jsonp.js", needs: [ "ajax", "ajax/script" ]  },
 					{ flag: "ajax/xhr", src: "src/ajax/xhr.js", needs: ["ajax"]  },
-					{ flag: "effects", src: "src/effects.js", needs: ["css"] },
+					//{ flag: "effects", src: "src/effects.js", needs: ["css"] },
 					{ flag: "offset", src: "src/offset.js", needs: ["css"] },
 					{ flag: "dimensions", src: "src/dimensions.js", needs: ["css"] },
 					//{ flag: "deprecated", src: "src/deprecated.js" },
