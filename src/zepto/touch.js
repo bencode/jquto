@@ -107,7 +107,7 @@
 
             // trigger double tap immediately
             if (touch.isDoubleTap) {
-              touch.el.trigger('doub  leTap')
+              touch.el.trigger('doubleTap')
               touch = {}
             }
 
