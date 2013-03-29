@@ -1,4 +1,4 @@
-# 基于jQuery 2.x 和 Zepto 1.x 的移动基础类库
+# 基于jQuery 2.0.0-pre 和 Zepto 1.0.0 的移动基础类库
 
 #### 打包命令：
     
