@@ -3,9 +3,26 @@
 //     Zepto.js may be freely distributed under the MIT license.
 
 ;(function($){
+  var supportTouch = "ontouchend" in document,
+    supportPointer = navigator.msPointerEnabled
+
+  if (!(supportTouch || supportPointer))
+    return;
+
   var touch = {},
     touchTimeout, tapTimeout, swipeTimeout,
-    longTapDelay = 750, longTapTimeout
+    longTapDelay = 750, longTapTimeout,
+    EVENT = supportTouch ? {
+      START: 'touchstart',
+      MOVE: 'touchmove',
+      END: 'touchend',
+      CANCEL: 'touchcancel'
+    } : {
+      START: 'MSPointerDown',
+      MOVE: 'MSPointerMove',
+      END: 'MSPointerUp',
+      CANCEL: 'MSPointerCancel'
+    }
 
   function parentIfText(node) {
     return 'tagName' in node ? node : node.parentNode
@@ -38,11 +55,11 @@
     touch = {}
   }
 
-  $(document).ready(function(){
+  $(function(){
     var now, delta
 
     $(document.body)
-      .on('touchstart', function(e){
+      .on(EVENT.START, function(e){
         var touches = e.originalEvent.touches || [e.originalEvent];
         now = Date.now()
         delta = now - (touch.last || now)
@@ -54,7 +71,7 @@
         touch.last = now
         longTapTimeout = setTimeout(longTap, longTapDelay)
       })
-      .on('touchmove', function(e){
+      .on(EVENT.MOVE, function(e){
         var touches = e.originalEvent.touches || [e.originalEvent];
         cancelLongTap()
         touch.x2 = touches[0].pageX
@@ -62,7 +79,7 @@
         if (Math.abs(touch.x1 - touch.x2) > 10)
           e.preventDefault()
       })
-      .on('touchend', function(e){
+      .on(EVENT.END, function(e){
          cancelLongTap()
 
         // swipe
@@ -106,7 +123,7 @@
           }, 0)
 
       })
-      .on('touchcancel', cancelAll)
+      .on(EVENT.CANCEL, cancelAll)
 
     $(window).on('scroll', cancelAll)
   })

@@ -4,7 +4,7 @@
 
 ;(function($, undefined){
   var prefix = '', eventPrefix, endEventName, endAnimationName,
-    vendors = { Webkit: 'webkit', Moz: '', O: 'o', ms: 'MS' },
+    vendors = {'t':'', webkitT: 'webkit', MozT: 'Moz', OT: 'o', msT: 'MS' },
     document = window.document, testEl = document.createElement('div'),
     supportedTransforms = /^((translate|rotate|scale)(X|Y|Z|3d)?|matrix(3d)?|perspective|skew(X|Y)?)$/i,
     transform,
@@ -16,10 +16,10 @@
   function downcase(str) { return str.toLowerCase() }
   function normalizeEvent(name) { return eventPrefix ? eventPrefix + name : downcase(name) }
 
-  $.each(vendors, function(vendor, event){
-    if (testEl.style[vendor + 'TransitionProperty'] !== undefined) {
-      prefix = '-' + downcase(vendor) + '-'
-      eventPrefix = event
+  $.each(vendors, function(key, vendor){
+    if (testEl.style[key + 'ransform'] !== undefined) {
+      prefix = vendor ? '-' + downcase(vendor) + '-' : ''
+      eventPrefix = vendor
       return false
     }
   })
