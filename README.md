@@ -4,10 +4,10 @@
 
 文件大小：
 
-    Uncompressed size: 186210 bytes.
-    Compressed size: 15071 bytes gzipped (65416 bytes minified).
+    Uncompressed size: 167218 bytes.
+    Compressed size: 13246 bytes gzipped (57416 bytes minified).
     
-缩略文件不含：sizzle、event-alias、deprecated、exports模块
+缩略文件不含：sizzle、event-alias、effects、deprecated、exports模块
 
 ================
 
