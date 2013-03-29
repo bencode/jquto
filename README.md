@@ -6,13 +6,13 @@
 
 #### 文件大小：
     
-    Uncompressed size: 178665 bytes.
-    Compressed size: 14373 bytes gzipped (62234 bytes minified).
+    Uncompressed size: 177360 bytes.
+    Compressed size: 14274 bytes gzipped (61704 bytes minified).
 
 ##### 模块说明
     
-不含jQuery模块：sizzle、event-alias、effects、deprecated、exports
-包含Zepto模块：selector.js、fx.js、fx_methods.js、touch.js
+* 不含jQuery模块：sizzle、event-alias、effects、deprecated、exports
+* 包含Zepto模块：fx.js、fx_methods.js、touch.js
 
 ================
 
