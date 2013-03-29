@@ -61,6 +61,10 @@ module.exports = function( grunt ) {
 					//{ flag: "effects", src: "src/effects.js", needs: ["css"] },
 					{ flag: "offset", src: "src/offset.js", needs: ["css"] },
 					{ flag: "dimensions", src: "src/dimensions.js", needs: ["css"] },
+          "src/zepto/selector.js",
+          "src/zepto/fx.js",
+          "src/zepto/fx_methods.js",
+          "src/zepto/touch.js",
 					//{ flag: "deprecated", src: "src/deprecated.js" },
 
 					//"src/exports.js",
