@@ -3,26 +3,35 @@
 //     Zepto.js may be freely distributed under the MIT license.
 
 ;(function($, undefined){
-  var prefix = '', eventPrefix, endEventName, endAnimationName,
-    vendors = {'t':'', webkitT: 'webkit', MozT: 'Moz', OT: 'o', msT: 'MS' },
-    document = window.document, testEl = document.createElement('div'),
+  var support = $.support,
+    document = window.document,
+    dummyStyle = document.createElement('div').style,
+    vendor = '',
+    prefix = (function () {
+      var vendors = {'-webkit-': 'webkit', '-o-': 'O', '-moz-': 'Moz', '-ms-': 'ms'}, key;
+
+      for (key in vendors) {
+        var v = vendors[key];
+        if ((v + 'Transform') in dummyStyle) {
+          vendor = v;
+          return key;
+        }
+      }
+
+      return '';
+    })(),
+    endEventName, endAnimationName,
     supportedTransforms = /^((translate|rotate|scale)(X|Y|Z|3d)?|matrix(3d)?|perspective|skew(X|Y)?)$/i,
     transform,
     transitionProperty, transitionDuration, transitionTiming,
     animationName, animationDuration, animationTiming,
-    cssReset = {}
+    cssReset = {};
 
+
+  function prefixStyle(style) { return vendor ? (vendor + style) : style.toLowerCase(); }
   function dasherize(str) { return downcase(str.replace(/([a-z])([A-Z])/, '$1-$2')) }
   function downcase(str) { return str.toLowerCase() }
-  function normalizeEvent(name) { return eventPrefix ? eventPrefix + name : downcase(name) }
-
-  $.each(vendors, function(key, vendor){
-    if (testEl.style[key + 'ransform'] !== undefined) {
-      prefix = vendor ? '-' + downcase(vendor) + '-' : ''
-      eventPrefix = vendor
-      return false
-    }
-  })
+  function normalizeEvent(name) { return vendor ? vendor + name : downcase(name) }
 
   transform = prefix + 'transform'
   cssReset[transitionProperty = prefix + 'transition-property'] =
@@ -32,8 +41,16 @@
   cssReset[animationDuration  = prefix + 'animation-duration'] =
   cssReset[animationTiming    = prefix + 'animation-timing-function'] = ''
 
+  $.extend(support, {
+    vendor: vendor,
+    prefix: prefix,
+    transform: prefixStyle('Transform') in dummyStyle,
+    trans3d: prefixStyle('Perspective') in dummyStyle,
+    transition: prefixStyle('Transition') in dummyStyle
+  });
+
   $.fx = {
-    off: (eventPrefix === undefined && testEl.style.transitionProperty === undefined),
+    off: (vendor === '' && dummyStyle.style.transitionProperty === undefined),
     speeds: { _default: 400, fast: 200, slow: 600 },
     cssPrefix: prefix,
     transitionEnd: normalizeEvent('TransitionEnd'),
@@ -97,6 +114,4 @@
 
     return this
   }
-
-  testEl = null
 })(jQuery)

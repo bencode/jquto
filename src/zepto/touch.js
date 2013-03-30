@@ -3,8 +3,14 @@
 //     Zepto.js may be freely distributed under the MIT license.
 
 ;(function($){
-  var supportTouch = "ontouchend" in document,
-    supportPointer = navigator.msPointerEnabled
+  var support = $.support,
+    supportTouch = "ontouchend" in document,
+    supportPointer = navigator.msPointerEnabled;
+
+  $.extend(support, {
+    touch: supportTouch,
+    pointer: supportPointer
+  });
 
   if (!(supportTouch || supportPointer))
     return;
@@ -60,7 +66,6 @@
 
     $(document.body)
       .on(EVENT.START, function(e){
-        console.log('start');
         var touches = e.originalEvent.touches || [e.originalEvent];
         now = Date.now()
         delta = now - (touch.last || now)
@@ -71,10 +76,8 @@
         if (delta > 0 && delta <= 250) touch.isDoubleTap = true
         touch.last = now
         longTapTimeout = setTimeout(longTap, longTapDelay)
-        console.log(touch);
       })
       .on(EVENT.MOVE, function(e){
-        console.log('move')
         var touches = e.originalEvent.touches || [e.originalEvent];
         cancelLongTap()
         touch.x2 = touches[0].pageX
@@ -90,7 +93,6 @@
             (touch.y2 && Math.abs(touch.y1 - touch.y2) > 30))
 
           swipeTimeout = setTimeout(function() {
-            console.log('swipe')
             touch.el.trigger('swipe')
             touch.el.trigger('swipe' + (swipeDirection(touch.x1, touch.x2, touch.y1, touch.y2)))
             touch = {}
@@ -108,12 +110,10 @@
             var event = $.Event('tap')
             event.cancelTouch = cancelAll
             touch.el.trigger(event)
-            console.log('tap')
 
             // trigger double tap immediately
             if (touch.isDoubleTap) {
               touch.el.trigger('doubleTap')
-              console.log('doubleTap')
               touch = {}
             }
 
@@ -122,7 +122,6 @@
               touchTimeout = setTimeout(function(){
                 touchTimeout = null
                 touch.el.trigger('singleTap')
-                console.log('singleTap')
                 touch = {}
               }, 250)
             }
