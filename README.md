@@ -14,6 +14,19 @@
 * 不含jQuery模块：sizzle、event-alias、effects、deprecated、exports
 * 包含Zepto模块：fx.js、fx_methods.js、touch.js
 
+##### 扩展
+
+$.support
+
+* `vendor`: 样式属性前缀: "O", "webkit", "ms", "Moz", ""
+* `prefix`: 样式前缀: "-o-", "-webkit-", "-ms-", "-moz-", ""
+* `touch`: 是否支持`ontouchstart`, `ontouchmove`, `ontouchend`, `ontouchcancel`系列特性
+* `pointer`: 是否支持Window Phone 8+ 的`MSPointerDown`, `MSPpointerMove`, `MSPointerUp`, `MSPointerCancel`系统特性
+* `transform`: 是否支持CSS3 transform特性
+* `trans3d`: 是否支持CSS3 3d transform特性
+* `transition`: 是否支持CSS3 线性动画特性
+
+
 ================
 
 
