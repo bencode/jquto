@@ -6,8 +6,8 @@
 
 #### 文件大小：
     
-    Uncompressed size: 177389 bytes.
-    Compressed size: 14265 bytes gzipped (61688 bytes minified).
+    Uncompressed size: 177607 bytes.
+    Compressed size: 14293 bytes gzipped (61762 bytes minified).
 
 ##### 模块说明
     
