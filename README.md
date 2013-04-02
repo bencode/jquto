@@ -2,12 +2,12 @@
 
 #### 打包命令：
     
-    $ grunt custom:-sizzle
+    $ grunt custom
 
 #### 文件大小：
     
-    Uncompressed size: 177607 bytes.
-    Compressed size: 14293 bytes gzipped (61762 bytes minified).
+    Uncompressed size: 177590 bytes.
+    Compressed size: 14290 bytes gzipped (61754 bytes minified).
 
 ##### 模块说明
     

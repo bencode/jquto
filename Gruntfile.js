@@ -30,11 +30,6 @@ module.exports = function( grunt ) {
 				cache: "dist/.sizecache.json"
 			}
 		},
-		selector: {
-			destFile: "src/selector-sizzle.js",
-			apiFile: "src/sizzle-jquery-debug.js",
-			srcFile: "src/sizzle/dist/sizzle.js"
-		},
 		build: {
 			all:{
 				dest: "dist/jquery-debug.js",
@@ -48,7 +43,7 @@ module.exports = function( grunt ) {
 					"src/queue.js",
 					"src/attributes.js",
 					"src/event.js",
-					{ flag: "sizzle", src: "src/selector-sizzle.js", alt: "src/selector-native.js" },
+          "src/selector-native.js",
 					"src/traversing.js",
 					"src/manipulation.js",
 					{ flag: "css", src: "src/css.js" },
@@ -156,64 +151,6 @@ module.exports = function( grunt ) {
 			"runUrls[]": testUrls,
 			"browserSets[]": "popular-no-old-ie"
 		});
-	});
-
-	grunt.registerTask( "selector", "Build Sizzle-based selector module", function() {
-
-		var cfg = grunt.config("selector"),
-			name = cfg.destFile,
-			sizzle = {
-				api: grunt.file.read( cfg.apiFile ),
-				src: grunt.file.read( cfg.srcFile )
-			},
-			compiled, parts;
-
-		/**
-
-			sizzle-jquery.js -> sizzle between "EXPOSE" blocks,
-			replace define & window.Sizzle assignment
-
-
-			// EXPOSE
-			if ( typeof define === "function" && define.amd ) {
-				define(function() { return Sizzle; });
-			} else {
-				window.Sizzle = Sizzle;
-			}
-			// EXPOSE
-
-			Becomes...
-
-			Sizzle.attr = jQuery.attr;
-			jQuery.find = Sizzle;
-			jQuery.expr = Sizzle.selectors;
-			jQuery.expr[":"] = jQuery.expr.pseudos;
-			jQuery.unique = Sizzle.uniqueSort;
-			jQuery.text = Sizzle.getText;
-			jQuery.isXMLDoc = Sizzle.isXML;
-			jQuery.contains = Sizzle.contains;
-
-		 */
-
-		// Break into 3 pieces
-		parts = sizzle.src.split("// EXPOSE");
-		// Replace the if/else block with api
-		parts[1] = sizzle.api;
-		// Rejoin the pieces
-		compiled = parts.join("");
-
-		grunt.verbose.writeln("Injected " + cfg.apiFile + " into " + cfg.srcFile);
-
-		// Write concatenated source to file, and ensure newline-only termination
-		grunt.file.write( name, compiled.replace( /\x0d\x0a/g, "\x0a" ) );
-
-		// Fail task if errors were logged.
-		if ( this.errorCount ) {
-			return false;
-		}
-
-		// Otherwise, print a success message.
-		grunt.log.writeln( "File '" + name + "' created." );
 	});
 
 
@@ -505,8 +442,8 @@ module.exports = function( grunt ) {
 	grunt.loadNpmTasks("grunt-contrib-uglify");
 
 	// Default grunt
-	grunt.registerTask( "default", [ "update_submodules", "selector", "build:*:*", "jshint", "uglify", "dist:*", "compare_size" ] );
+	grunt.registerTask( "default", [ "update_submodules", "build:*:*", "jshint", "uglify", "dist:*", "compare_size" ] );
 
 	// Short list as a high frequency watch task
-	grunt.registerTask( "dev", [ "selector", "build:*:*", "jshint" ] );
+	grunt.registerTask( "dev", ["build:*:*", "jshint" ] );
 };
