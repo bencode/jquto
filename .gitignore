@@ -3,8 +3,9 @@
 *~
 *.diff
 *.patch
-/*.html
+*.html
 .DS_Store
-build/.sizecache.json
+build
 node_modules
+.sizecache.json
 *.iml

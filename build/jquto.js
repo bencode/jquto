@@ -1,6 +1,5 @@
-define(function (require, exports, module) {
 /*!
- * jQuery JavaScript Library v@VERSION
+ * jQuery JavaScript Library v1.0.0
  * http://jquery.com/
  *
  * Includes Sizzle.js
@@ -10,9 +9,9 @@ define(function (require, exports, module) {
  * Released under the MIT license
  * http://jquery.org/license
  *
- * Date: @DATE
+ * Date: 2013-04-08
  */
-return (function( window, undefined ) {
+(function( window, undefined ) {
 
 // Can't do this because several apps including ASP.NET trace
 // the stack via arguments.caller.callee and Firefox dies if
@@ -48,7 +47,7 @@ var
 	// List of deleted data cache ids, so we can reuse them
 	core_deletedIds = [],
 
-	core_version = "@VERSION",
+	core_version = "1.0.0",
 
 	// Save a reference to some core methods
 	core_concat = core_deletedIds.concat,
@@ -6507,6 +6506,8 @@ jQuery.each( { Height: "height", Width: "width" }, function( name, type ) {
   })
 })(jQuery)
 
-return jQuery;
+  define(function(require, exports, module) {
+    module.exports = jQuery;
+  });
+
 })( this );
-});
