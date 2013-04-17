@@ -22,19 +22,13 @@ define(function (require) {
     it('.show(speed) & .hide(speed)', function (done) {
 
       $(testDiv).hide(100);
-      expect($(testDiv).css('opacity')).to.above(.9);
       expect($(testDiv).css('display')).to.not.be('none');
       setTimeout(function () {
         expect($(testDiv).css('display')).to.be('none');
-        expect($(testDiv).css('opacity')).to.be('0');
-        $(testDiv).show(100);
-        expect($(testDiv).css('display')).to.not.be('none');
-        expect($(testDiv).css('opacity')).to.below(.1);
-        setTimeout(function () {
+        $(testDiv).show(100, function () {
           expect($(testDiv).css('display')).to.not.be('none');
-          expect($(testDiv).css('opacity')).to.be('1');
           done();
-        }, 150)
+        });
       }, 150);
     });
 
@@ -59,17 +53,13 @@ define(function (require) {
 
     it('.fadeIn(speed, callback) & .fadeOut(speed, callback)', function (done) {
       $(testDiv).fadeOut(100, function () {
-        expect($(this).css('opacity')).to.be('0');
         expect($(this).css('display')).to.be('none');
         $(this).fadeIn(100, function () {
-          expect($(this).css('opacity')).to.be('1');
           done();
         });
-        expect($(this).css('opacity')).to.below(.1);
         expect($(this).css('display')).to.not.be('none');
 
       });
-      expect($(testDiv).css('opacity')).to.above(.9);
       expect($(testDiv).css('display')).to.not.be('none');
     });
 
