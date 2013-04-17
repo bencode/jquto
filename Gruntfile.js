@@ -3,7 +3,7 @@ module.exports = function (grunt) {
   "use strict";
 
   var gzip = require("gzip-js");
-  var pkg =  grunt.file.readJSON("package.json");
+  var pkg = grunt.file.readJSON("package.json");
 
   grunt.initConfig({
     pkg: pkg,
@@ -81,13 +81,13 @@ module.exports = function (grunt) {
     }
   });
 
-  grunt.registerTask('replace', function() {
+  grunt.registerTask('replace', function () {
     var data = grunt.file.read('build/jquto.js');
-    data = data.replace(/@VERSION/g, pkg.version )
-				.replace( "@DATE", function () {
-					// YYYY-MM-DD
-					return ( new Date() ).toISOString().replace( /T.*/, "" );
-				});
+    data = data.replace(/@VERSION/g, pkg.version)
+      .replace("@DATE", function () {
+        // YYYY-MM-DD
+        return ( new Date() ).toISOString().replace(/T.*/, "");
+      });
     grunt.file.write('build/jquto.js', data);
   })
 

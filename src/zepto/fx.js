@@ -27,11 +27,11 @@
     animationName, animationDuration, animationTiming,
     cssReset = {};
 
-
-  function prefixStyle(style) { return vendor ? (vendor + style) : style.toLowerCase(); }
+  function prefixStyle(style) { return vendor ? (vendor + style.charAt(0).toUpperCase() + style.slice(1)) : style; }
   function dasherize(str) { return downcase(str.replace(/([a-z])([A-Z])/, '$1-$2')) }
   function downcase(str) { return str.toLowerCase() }
-  function normalizeEvent(name) { return vendor ? vendor + name : downcase(name) }
+  //有些浏览器新版本已经不识别增加前缀的事件类型了，例如Firefox
+  function normalizeEvent(name) { return downcase(name) + (vendor ? ' ' + vendor + name : '') }
 
   transform = prefix + 'transform'
   cssReset[transitionProperty = prefix + 'transition-property'] =
@@ -44,9 +44,9 @@
   $.extend(support, {
     vendor: vendor,
     prefix: prefix,
-    transform: prefixStyle('Transform') in dummyStyle,
-    trans3d: prefixStyle('Perspective') in dummyStyle,
-    transition: prefixStyle('Transition') in dummyStyle
+    transform: prefixStyle('transform') in dummyStyle,
+    trans3d: prefixStyle('perspective') in dummyStyle,
+    transition: prefixStyle('transition') in dummyStyle
   });
 
   $.fx = {

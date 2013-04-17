@@ -9,7 +9,7 @@
  * Released under the MIT license
  * http://jquery.org/license
  *
- * Date: 2013-04-08
+ * Date: 2013-04-17
  */
 (function(window, undefined) {
     // Can't do this because several apps including ASP.NET trace
@@ -4682,7 +4682,7 @@
             return "";
         }(), endEventName, endAnimationName, supportedTransforms = /^((translate|rotate|scale)(X|Y|Z|3d)?|matrix(3d)?|perspective|skew(X|Y)?)$/i, transform, transitionProperty, transitionDuration, transitionTiming, animationName, animationDuration, animationTiming, cssReset = {};
         function prefixStyle(style) {
-            return vendor ? vendor + style : style.toLowerCase();
+            return vendor ? vendor + style.charAt(0).toUpperCase() + style.slice(1) : style;
         }
         function dasherize(str) {
             return downcase(str.replace(/([a-z])([A-Z])/, "$1-$2"));
@@ -4690,17 +4690,18 @@
         function downcase(str) {
             return str.toLowerCase();
         }
+        //有些浏览器新版本已经不识别增加前缀的事件类型了，例如Firefox
         function normalizeEvent(name) {
-            return vendor ? vendor + name : downcase(name);
+            return downcase(name) + (vendor ? " " + vendor + name : "");
         }
         transform = prefix + "transform";
         cssReset[transitionProperty = prefix + "transition-property"] = cssReset[transitionDuration = prefix + "transition-duration"] = cssReset[transitionTiming = prefix + "transition-timing-function"] = cssReset[animationName = prefix + "animation-name"] = cssReset[animationDuration = prefix + "animation-duration"] = cssReset[animationTiming = prefix + "animation-timing-function"] = "";
         $.extend(support, {
             vendor: vendor,
             prefix: prefix,
-            transform: prefixStyle("Transform") in dummyStyle,
-            trans3d: prefixStyle("Perspective") in dummyStyle,
-            transition: prefixStyle("Transition") in dummyStyle
+            transform: prefixStyle("transform") in dummyStyle,
+            trans3d: prefixStyle("perspective") in dummyStyle,
+            transition: prefixStyle("transition") in dummyStyle
         });
         $.fx = {
             off: vendor === "" && dummyStyle.style.transitionProperty === undefined,
