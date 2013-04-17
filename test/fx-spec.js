@@ -46,18 +46,10 @@ define(function (require) {
     afterEach(function () {
       document.body.removeChild(testDiv);
     })
-    it('transitionend event', function (done) {
+    it('transition', function (done) {
       $(testDiv).animate({
         translate3d: '10px,20px,-30px'
       }, {
-        complete: function () {
-          done();
-        }
-      });
-    });
-
-    it('animationend event', function (done) {
-      $(testDiv).animate('animName', {
         complete: function () {
           done();
         }
@@ -76,10 +68,18 @@ define(function (require) {
         duration: 200,
         easing: 'ease-out'
       });
-      expect(div.css('transitionDuration')).to.be($(tmpDiv).css('transitionDuration'));
+      expect(parseFloat(div.css('transitionDuration')).toFixed(3)).to.be(parseFloat($(tmpDiv).css('transitionDuration')).toFixed(3));
       expect(div.css('transitionTimingFunction')).to.be($(tmpDiv).css('transitionTimingFunction'));
       document.body.removeChild(tmpDiv);
       done();
+    });
+
+    it('animation', function (done) {
+      $(testDiv).animate('animName', {
+        complete: function () {
+          done();
+        }
+      });
     });
 
     it('transform', function (done) {
