@@ -104,7 +104,7 @@
     if (duration > 0) this.on(endEvent, wrappedCallback)
 
     // trigger page reflow so new elements can animate
-    this.size() && this.get(0).clientLeft
+    this.length && this.get(0).clientLeft
 
     this.css(cssValues)
 
