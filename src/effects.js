@@ -242,7 +242,7 @@ jQuery.Animation = jQuery.extend( Animation, {
 });
 
 function defaultPrefilter( elem, props, opts ) {
-	/*jshint validthis:true */
+	/* jshint validthis: true */
 	var index, prop, value, length, dataShow, toggle, tween, hooks, oldfire,
 		anim = this,
 		style = elem.style,
@@ -279,7 +279,7 @@ function defaultPrefilter( elem, props, opts ) {
 	// height/width overflow pass
 	if ( elem.nodeType === 1 && ( "height" in props || "width" in props ) ) {
 		// Make sure that nothing sneaks out
-		// Record all 3 overflow attributes because IE does not
+		// Record all 3 overflow attributes because IE9-10 do not
 		// change the overflow attribute when overflowX and
 		// overflowY are set to the same value
 		opts.overflow = [ style.overflow, style.overflowX, style.overflowY ];
@@ -304,13 +304,20 @@ function defaultPrefilter( elem, props, opts ) {
 
 
 	// show/hide pass
+	dataShow = data_priv.get( elem, "fxshow" );
 	for ( index in props ) {
 		value = props[ index ];
 		if ( rfxtypes.exec( value ) ) {
 			delete props[ index ];
 			toggle = toggle || value === "toggle";
 			if ( value === ( hidden ? "hide" : "show" ) ) {
-				continue;
+
+				// If there is dataShow left over from a stopped hide or show and we are going to proceed with show, we should pretend to be hidden
+				if( value === "show" && dataShow !== undefined && dataShow[ index ] !== undefined ) {
+					hidden = true;
+				} else {
+					continue;
+				}
 			}
 			handled.push( index );
 		}
@@ -318,7 +325,7 @@ function defaultPrefilter( elem, props, opts ) {
 
 	length = handled.length;
 	if ( length ) {
-		dataShow = jQuery._data( elem, "fxshow" ) || jQuery._data( elem, "fxshow", {} );
+		dataShow = data_priv.get( elem, "fxshow" ) || data_priv.access( elem, "fxshow", {} );
 		if ( "hidden" in dataShow ) {
 			hidden = dataShow.hidden;
 		}
@@ -336,7 +343,8 @@ function defaultPrefilter( elem, props, opts ) {
 		}
 		anim.done(function() {
 			var prop;
-			jQuery._removeData( elem, "fxshow" );
+
+			data_priv.remove( elem, "fxshow" );
 			for ( prop in orig ) {
 				jQuery.style( elem, prop, orig[ prop ] );
 			}
@@ -479,7 +487,7 @@ jQuery.fn.extend({
 					anim.stop( true );
 				};
 				// Empty animations, or finishing resolves immediately
-				if ( empty || jQuery._data( this, "finish" ) ) {
+				if ( empty || data_priv.get( this, "finish" ) ) {
 					anim.stop( true );
 				}
 			};
@@ -509,7 +517,7 @@ jQuery.fn.extend({
 			var dequeue = true,
 				index = type != null && type + "queueHooks",
 				timers = jQuery.timers,
-				data = jQuery._data( this );
+				data = data_priv.get( this );
 
 			if ( index ) {
 				if ( data[ index ] && data[ index ].stop ) {
@@ -545,7 +553,7 @@ jQuery.fn.extend({
 		}
 		return this.each(function() {
 			var index,
-				data = jQuery._data( this ),
+				data = data_priv.get( this ),
 				queue = data[ type + "queue" ],
 				hooks = data[ type + "queueHooks" ],
 				timers = jQuery.timers,

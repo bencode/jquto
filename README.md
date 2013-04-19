@@ -13,7 +13,7 @@
 
 ##### 模块说明
     
-* 不含jQuery模块：sizzle、event-alias、effects、deprecated、exports
+* 不含jQuery模块：sizzle、event-alias、effects、deprecated、wrap
 * 包含Zepto模块：fx.js、fx_methods.js、touch.js
 
 ##### 扩展

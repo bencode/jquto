@@ -1,8 +1,8 @@
 {
   "family": "handy",
   "name": "jquto",
-  "version": "1.0.0",
-  "description": "基于jQuery和Zepto的移动基础类库",
+  "version": "1.1.0",
+  "description": "基于 jQuery 2.0.0 和 Zepto 1.0.0 的移动基础类库",
   "keywords": ["jquto", "jquery", "Zepto"],
   "repository": {
     "type": "git",
