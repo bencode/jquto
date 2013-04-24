@@ -1,13 +1,8 @@
 /*!
- * jQuery JavaScript Library v@VERSION
- * http://jquery.com/
- *
- * Includes Sizzle.js
- * http://sizzlejs.com/
- *
- * Copyright 2005, 2013 jQuery Foundation, Inc. and other contributors
+ * jQuto JavaScript Library v@VERSION
+ * Thanks http://jquery.com/ & http://zeptojs.com !
+ * Github: https://github.com/handyjs/jquto
  * Released under the MIT license
- * http://jquery.org/license
  *
  * Date: @DATE
  */
