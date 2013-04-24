@@ -8,8 +8,8 @@
     
 | |   raw(byte)  |   gz(byte) |
 | ---- | ---- | ---- |
-|dist/jquto-debug.js| 221672 | 54163 |
-|dist/jquto.js| 61183 | 22025 |
+|dist/jquto-debug.js| 221593 | 54140 |
+|dist/jquto.js| 61183 | 22021 |
 
 ##### 模块说明
     

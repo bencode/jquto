@@ -1,15 +1,10 @@
 /*!
- * jQuery JavaScript Library v1.1.0
- * http://jquery.com/
- *
- * Includes Sizzle.js
- * http://sizzlejs.com/
- *
- * Copyright 2005, 2013 jQuery Foundation, Inc. and other contributors
+ * jQuto JavaScript Library v1.1.0
+ * Thanks http://jquery.com/ & http://zeptojs.com !
+ * Github: https://github.com/handyjs/jquto
  * Released under the MIT license
- * http://jquery.org/license
  *
- * Date: 2013-04-19
+ * Date: 2013-04-24
  */
 (function(window, undefined) {
     // Can't do this because several apps including ASP.NET trace
