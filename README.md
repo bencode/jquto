@@ -8,8 +8,8 @@
     
 | |   raw(byte)  |   gz(byte) |
 | ---- | ---- | ---- |
-|dist/jquto-debug.js| 221593 | 54140 |
-|dist/jquto.js| 61183 | 22021 |
+|dist/jquto-debug.js| 221683 | 54152 |
+|dist/jquto.js| 61245 | 22029 |
 
 ##### 模块说明
     
@@ -20,8 +20,16 @@
 
 $.support
 
-* `vendor`: 样式属性前缀: "O", "webkit", "ms", "Moz", ""
-* `prefix`: 样式前缀: "-o-", "-webkit-", "-ms-", "-moz-", ""
+* `prefix`: 样式前缀: 
+    
+    ```javasript
+    {"css":"-o-","style":"O"} 
+    {"css":"-webkit-","style":"webkit"}
+    {"css":"-ms-","style":"ms"}
+    {"css":"-moz-","style":"Moz"}
+    {"css":"","style":""}
+    ```
+    
 * `touch`: 是否支持`ontouchstart`, `ontouchmove`, `ontouchend`, `ontouchcancel`系列特性
 * `pointer`: 是否支持Window Phone 8+ 的`MSPointerDown`, `MSPpointerMove`, `MSPointerUp`, `MSPointerCancel`系统特性
 * `transform`: 是否支持CSS3 transform特性

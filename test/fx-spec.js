@@ -3,10 +3,10 @@ define(function (require) {
   var $ = require('../build/jquto'),
     expect = require('expect'),
     support = $.support,
-    vendor = '', prefix;
+    prefix;
 
   function prefixStyle(style) {
-    return vendor ? (vendor + style.charAt(0).toUpperCase() + style.slice(1)) : style;
+    return prefix.style ? (prefix.style + style.charAt(0).toUpperCase() + style.slice(1)) : style;
   }
 
   describe('$.support', function () {
@@ -15,23 +15,25 @@ define(function (require) {
     before(function () {
       dummyStyle = document.createElement('div').style;
       prefix = (function () {
-        var vendors = {'-webkit-': 'webkit', '-o-': 'O', '-moz-': 'Moz', '-ms-': 'ms'}, key;
+        var prefixs = {'-webkit-': 'webkit', '-o-': 'O', '-moz-': 'Moz', '-ms-': 'ms'}, css, style;
 
-        for (key in vendors) {
-          var v = vendors[key];
+        for (css in prefixs) {
+          var v = prefixs[css];
           if ((v + 'Transform') in dummyStyle) {
-            vendor = v;
-            return key;
+            style = v;
+            break;
           }
         }
 
-        return '';
-      })();
+        return {
+          style: style,
+          css: css
+        };
+      })()
     });
 
     it('css3 support', function () {
-      expect(support.vendor).to.be(vendor);
-      expect(support.prefix).to.be(prefix);
+      expect(support.prefix).to.eql(prefix);
       expect(support.transform).to.be(prefixStyle('Transform') in dummyStyle);
       expect(support.trans3d).to.be(prefixStyle('Perspective') in dummyStyle);
       expect(support.transition).to.be(prefixStyle('Transition') in dummyStyle);

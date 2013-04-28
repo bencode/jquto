@@ -4,7 +4,7 @@
  * Github: https://github.com/handyjs/jquto
  * Released under the MIT license
  *
- * Date: 2013-04-24
+ * Date: 2013-04-28
  */
 (function( window, undefined ) {
 
@@ -6136,19 +6136,21 @@ jQuery.each( { Height: "height", Width: "width" }, function( name, type ) {
   var support = $.support,
     document = window.document,
     dummyStyle = document.createElement('div').style,
-    vendor = '',
     prefix = (function () {
-      var vendors = {'-webkit-': 'webkit', '-o-': 'O', '-moz-': 'Moz', '-ms-': 'ms'}, key;
+      var prefixs = {'-webkit-': 'webkit', '-o-': 'O', '-moz-': 'Moz', '-ms-': 'ms'}, css, style;
 
-      for (key in vendors) {
-        var v = vendors[key];
+      for (css in prefixs) {
+        var v = prefixs[css];
         if ((v + 'Transform') in dummyStyle) {
-          vendor = v;
-          return key;
+          style = v;
+          break;
         }
       }
 
-      return '';
+      return {
+        style: style,
+        css: css
+      };
     })(),
     endEventName, endAnimationName,
     supportedTransforms = /^((translate|rotate|scale)(X|Y|Z|3d)?|matrix(3d)?|perspective|skew(X|Y)?)$/i,
@@ -6157,22 +6159,21 @@ jQuery.each( { Height: "height", Width: "width" }, function( name, type ) {
     animationName, animationDuration, animationTiming,
     cssReset = {};
 
-  function prefixStyle(style) { return vendor ? (vendor + style.charAt(0).toUpperCase() + style.slice(1)) : style; }
+  function prefixStyle(style) { return prefix.style ? (prefix.style + style.charAt(0).toUpperCase() + style.slice(1)) : style; }
   function dasherize(str) { return downcase(str.replace(/([a-z])([A-Z])/, '$1-$2')) }
   function downcase(str) { return str.toLowerCase() }
   //有些浏览器新版本已经不识别增加前缀的事件类型了，例如Firefox
-  function normalizeEvent(name) { return downcase(name) + (vendor ? ' ' + vendor + name : '') }
+  function normalizeEvent(name) { return downcase(name) + (prefix.style ? ' ' + prefix.style + name : '') }
 
-  transform = prefix + 'transform'
-  cssReset[transitionProperty = prefix + 'transition-property'] =
-  cssReset[transitionDuration = prefix + 'transition-duration'] =
-  cssReset[transitionTiming   = prefix + 'transition-timing-function'] =
-  cssReset[animationName      = prefix + 'animation-name'] =
-  cssReset[animationDuration  = prefix + 'animation-duration'] =
-  cssReset[animationTiming    = prefix + 'animation-timing-function'] = ''
+  transform = prefix.css + 'transform'
+  cssReset[transitionProperty = prefix.css + 'transition-property'] =
+  cssReset[transitionDuration = prefix.css + 'transition-duration'] =
+  cssReset[transitionTiming   = prefix.css + 'transition-timing-function'] =
+  cssReset[animationName      = prefix.css + 'animation-name'] =
+  cssReset[animationDuration  = prefix.css + 'animation-duration'] =
+  cssReset[animationTiming    = prefix.css + 'animation-timing-function'] = ''
 
   $.extend(support, {
-    vendor: vendor,
     prefix: prefix,
     transform: prefixStyle('transform') in dummyStyle,
     trans3d: prefixStyle('perspective') in dummyStyle,
@@ -6180,9 +6181,9 @@ jQuery.each( { Height: "height", Width: "width" }, function( name, type ) {
   });
 
   $.fx = {
-    off: (vendor === '' && dummyStyle.style.transitionProperty === undefined),
+    off: (prefix.style === '' && dummyStyle.style.transitionProperty === undefined),
     speeds: { _default: 400, fast: 200, slow: 600 },
-    cssPrefix: prefix,
+    cssPrefix: prefix.css,
     transitionEnd: normalizeEvent('TransitionEnd'),
     animationEnd: normalizeEvent('AnimationEnd')
   }
