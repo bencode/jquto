@@ -1,10 +1,10 @@
 /*!
- * jQuto JavaScript Library v1.1.0
+ * jQuto JavaScript Library v1.0.0
  * Thanks http://jquery.com/ & http://zeptojs.com !
  * Github: https://github.com/handyjs/jquto
  * Released under the MIT license
  *
- * Date: 2013-04-28
+ * Date: 2013-05-10
  */
 (function( window, undefined ) {
 
@@ -42,7 +42,7 @@ var
 	// List of deleted data cache ids, so we can reuse them
 	core_deletedIds = [],
 
-	core_version = "1.1.0",
+	core_version = "1.0.0",
 
 	// Save a reference to some core methods
 	core_concat = core_deletedIds.concat,

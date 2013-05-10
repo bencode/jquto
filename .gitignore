@@ -4,7 +4,7 @@
 *.diff
 *.patch
 .DS_Store
-build
-node_modules
+build/
+node_modules/
 .sizecache.json
 *.iml

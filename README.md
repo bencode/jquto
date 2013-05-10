@@ -1,14 +1,17 @@
 # 基于jQuery 2.0.0 和 Zepto 1.0.0 的移动基础类库
 
-#### 打包命令：
+
+
+#### 命令：
     
+    $ npm install
     $ grunt
 
 #### 文件大小：
     
 | |   raw(byte)  |   gz(byte) |
 | ---- | ---- | ---- |
-|dist/jquto-debug.js| 221683 | 54152 |
+|dist/jquto-debug.js| 221683 | 54151 |
 |dist/jquto.js| 61245 | 22029 |
 
 ##### 模块说明
