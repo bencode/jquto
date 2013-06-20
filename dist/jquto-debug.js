@@ -1,5 +1,5 @@
 /*!
- * jQuto JavaScript Library v1.0.0
+ * jQuto JavaScript Library v1.0.1
  * Thanks http://jquery.com/ & http://zeptojs.com !
  * Github: https://github.com/handyjs/jquto
  * Released under the MIT license
@@ -21,7 +21,7 @@
     _jQuery = window.jQuery, // Map over the $ in case of overwrite
     _$ = window.$, // [[Class]] -> type pairs
     class2type = {}, // List of deleted data cache ids, so we can reuse them
-    core_deletedIds = [], core_version = "1.0.0", // Save a reference to some core methods
+    core_deletedIds = [], core_version = "1.0.1", // Save a reference to some core methods
     core_concat = core_deletedIds.concat, core_push = core_deletedIds.push, core_slice = core_deletedIds.slice, core_indexOf = core_deletedIds.indexOf, core_toString = class2type.toString, core_hasOwn = class2type.hasOwnProperty, core_trim = core_version.trim, // Define a local copy of jQuery
     jQuery = function(selector, context) {
         // The jQuery object is actually just the init constructor 'enhanced'
@@ -4890,7 +4890,7 @@
             $(window).on("scroll", cancelAll);
         });
     })(jQuery);
-    define("handy/jquto/1.0.0/jquto-debug", [], function(require, exports, module) {
+    define("handy/jquto/1.0.1/jquto-debug", [], function(require, exports, module) {
         module.exports = jQuery;
     });
 })(window);
