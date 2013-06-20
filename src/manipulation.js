@@ -16,6 +16,7 @@ var rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>
 		option: [ 1, "<select multiple='multiple'>", "</select>" ],
 
 		thead: [ 1, "<table>", "</table>" ],
+		col: [ 2, "<table><colgroup>", "</colgroup></table>" ],
 		tr: [ 2, "<table><tbody>", "</tbody></table>" ],
 		td: [ 3, "<table><tbody><tr>", "</tr></tbody></table>" ],
 
@@ -25,7 +26,7 @@ var rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>
 // Support: IE 9
 wrapMap.optgroup = wrapMap.option;
 
-wrapMap.tbody = wrapMap.tfoot = wrapMap.colgroup = wrapMap.caption = wrapMap.col = wrapMap.thead;
+wrapMap.tbody = wrapMap.tfoot = wrapMap.colgroup = wrapMap.caption = wrapMap.thead;
 wrapMap.th = wrapMap.td;
 
 jQuery.fn.extend({
@@ -173,6 +174,10 @@ jQuery.fn.extend({
 				parent = args[ i++ ];
 
 			if ( parent ) {
+				// Don't use the snapshot next if it has moved (#13810)
+				if ( next && next.parentNode !== parent ) {
+					next = this.nextSibling;
+				}
 				jQuery( this ).remove();
 				parent.insertBefore( elem, next );
 			}
@@ -428,35 +433,35 @@ jQuery.extend({
 	},
 
 	cleanData: function( elems ) {
-		var data, elem, type,
-			l = elems.length,
-			i = 0,
-			special = jQuery.event.special;
+		var data, elem, events, type, key, j,
+			special = jQuery.event.special,
+			i = 0;
 
-		for ( ; i < l; i++ ) {
-			elem = elems[ i ];
+		for ( ; (elem = elems[ i ]) !== undefined; i++ ) {
+			if ( Data.accepts( elem ) ) {
+				key = elem[ data_priv.expando ];
 
-			if ( jQuery.acceptData( elem ) ) {
+				if ( key && (data = data_priv.cache[ key ]) ) {
+					events = Object.keys( data.events || {} );
+					if ( events.length ) {
+						for ( j = 0; (type = events[j]) !== undefined; j++ ) {
+							if ( special[ type ] ) {
+								jQuery.event.remove( elem, type );
 
-				data = data_priv.access( elem );
-
-				if ( data ) {
-					for ( type in data.events ) {
-						if ( special[ type ] ) {
-							jQuery.event.remove( elem, type );
-
-						// This is a shortcut to avoid jQuery.event.remove's overhead
-						} else {
-							jQuery.removeEvent( elem, type, data.handle );
+							// This is a shortcut to avoid jQuery.event.remove's overhead
+							} else {
+								jQuery.removeEvent( elem, type, data.handle );
+							}
 						}
+					}
+					if ( data_priv.cache[ key ] ) {
+						// Discard any remaining `private` data
+						delete data_priv.cache[ key ];
 					}
 				}
 			}
-			// Discard any remaining `private` and `user` data
-			// One day we'll replace the dual arrays with a WeakMap and this won't be an issue.
-			// (Splices the data objects out of the internal cache arrays)
-			data_user.discard( elem );
-			data_priv.discard( elem );
+			// Discard any remaining `user` data
+			delete data_user.cache[ elem[ data_user.expando ] ];
 		}
 	},
 
@@ -464,10 +469,10 @@ jQuery.extend({
 		return jQuery.ajax({
 			url: url,
 			type: "GET",
-			dataType: "text",
+			dataType: "script",
 			async: false,
 			global: false,
-			success: jQuery.globalEval
+			"throws": true
 		});
 	}
 });
@@ -522,10 +527,8 @@ function cloneCopyEvent( src, dest ) {
 	// 1. Copy private data: events, handlers, etc.
 	if ( data_priv.hasData( src ) ) {
 		pdataOld = data_priv.access( src );
-		pdataCur = jQuery.extend( {}, pdataOld );
+		pdataCur = data_priv.set( dest, pdataOld );
 		events = pdataOld.events;
-
-		data_priv.set( dest, pdataCur );
 
 		if ( events ) {
 			delete pdataCur.handle;

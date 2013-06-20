@@ -1,5 +1,5 @@
 var nodeHook, boolHook,
-	rclass = /[\t\r\n]/g,
+	rclass = /[\t\r\n\f]/g,
 	rreturn = /\r/g,
 	rfocusable = /^(?:input|select|textarea|button)$/i;
 
@@ -102,8 +102,11 @@ jQuery.fn.extend({
 	},
 
 	toggleClass: function( value, stateVal ) {
-		var type = typeof value,
-			isBool = typeof stateVal === "boolean";
+		var type = typeof value;
+
+		if ( typeof stateVal === "boolean" && type === "string" ) {
+			return stateVal ? this.addClass( value ) : this.removeClass( value );
+		}
 
 		if ( jQuery.isFunction( value ) ) {
 			return this.each(function( i ) {
@@ -117,13 +120,15 @@ jQuery.fn.extend({
 				var className,
 					i = 0,
 					self = jQuery( this ),
-					state = stateVal,
 					classNames = value.match( core_rnotwhite ) || [];
 
 				while ( (className = classNames[ i++ ]) ) {
 					// check each className given, space separated list
-					state = isBool ? state : !self.hasClass( className );
-					self[ state ? "addClass" : "removeClass" ]( className );
+					if ( self.hasClass( className ) ) {
+						self.removeClass( className );
+					} else {
+						self.addClass( className );
+					}
 				}
 
 			// Toggle whole class name
@@ -182,15 +187,14 @@ jQuery.fn.extend({
 		isFunction = jQuery.isFunction( value );
 
 		return this.each(function( i ) {
-			var val,
-				self = jQuery(this);
+			var val;
 
 			if ( this.nodeType !== 1 ) {
 				return;
 			}
 
 			if ( isFunction ) {
-				val = value.call( this, i, self.val() );
+				val = value.call( this, i, jQuery( this ).val() );
 			} else {
 				val = value;
 			}
@@ -305,7 +309,7 @@ jQuery.extend({
 		if ( nType !== 1 || !jQuery.isXMLDoc( elem ) ) {
 			name = name.toLowerCase();
 			hooks = jQuery.attrHooks[ name ] ||
-				( jQuery.expr.match.boolean.test( name ) ? boolHook : nodeHook );
+				( jQuery.expr.match.bool.test( name ) ? boolHook : nodeHook );
 		}
 
 		if ( value !== undefined ) {
@@ -344,7 +348,7 @@ jQuery.extend({
 				propName = jQuery.propFix[ name ] || name;
 
 				// Boolean attributes get special treatment (#10870)
-				if ( jQuery.expr.match.boolean.test( name ) ) {
+				if ( jQuery.expr.match.bool.test( name ) ) {
 					// Set corresponding property to false
 					elem[ propName ] = false;
 				}
@@ -428,7 +432,7 @@ boolHook = {
 		return name;
 	}
 };
-jQuery.each( jQuery.expr.match.boolean.source.match( /\w+/g ), function( i, name ) {
+jQuery.each( jQuery.expr.match.bool.source.match( /\w+/g ), function( i, name ) {
 	var getter = jQuery.expr.attrHandle[ name ] || jQuery.find.attr;
 
 	jQuery.expr.attrHandle[ name ] = function( elem, name, isXML ) {

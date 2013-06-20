@@ -1,4 +1,5 @@
 var isSimple = /^.[^:#\[\.,]*$/,
+	rparentsprev = /^(?:parents|prev(?:Until|All))/,
 	rneedsContext = jQuery.expr.match.needsContext,
 	// methods guaranteed to produce a unique set when starting from a unique set
 	guaranteedUnique = {
@@ -10,13 +11,14 @@ var isSimple = /^.[^:#\[\.,]*$/,
 
 jQuery.fn.extend({
 	find: function( selector ) {
-		var self, matched, i,
-			l = this.length;
+		var i,
+			ret = [],
+			self = this,
+			len = self.length;
 
 		if ( typeof selector !== "string" ) {
-			self = this;
 			return this.pushStack( jQuery( selector ).filter(function() {
-				for ( i = 0; i < l; i++ ) {
+				for ( i = 0; i < len; i++ ) {
 					if ( jQuery.contains( self[ i ], this ) ) {
 						return true;
 					}
@@ -24,15 +26,14 @@ jQuery.fn.extend({
 			}) );
 		}
 
-		matched = [];
-		for ( i = 0; i < l; i++ ) {
-			jQuery.find( selector, this[ i ], matched );
+		for ( i = 0; i < len; i++ ) {
+			jQuery.find( selector, self[ i ], ret );
 		}
 
 		// Needed because $( selector, context ) becomes $( context ).find( selector )
-		matched = this.pushStack( l > 1 ? jQuery.unique( matched ) : matched );
-		matched.selector = ( this.selector ? this.selector + " " : "" ) + selector;
-		return matched;
+		ret = this.pushStack( len > 1 ? jQuery.unique( ret ) : ret );
+		ret.selector = this.selector ? this.selector + " " + selector : selector;
+		return ret;
 	},
 
 	has: function( target ) {
@@ -58,14 +59,16 @@ jQuery.fn.extend({
 	},
 
 	is: function( selector ) {
-		return !!selector && (
-			typeof selector === "string" ?
-				// If this is a positional/relative selector, check membership in the returned set
-				// so $("p:first").is("p:last") won't return true for a doc with two "p".
-				rneedsContext.test( selector ) ?
-					jQuery( selector, this.context ).index( this[ 0 ] ) >= 0 :
-					jQuery.filter( selector, this ).length > 0 :
-				this.filter( selector ).length > 0 );
+		return !!winnow(
+			this,
+
+			// If this is a positional/relative selector, check membership in the returned set
+			// so $("p:first").is("p:last") won't return true for a doc with two "p".
+			typeof selector === "string" && rneedsContext.test( selector ) ?
+				jQuery( selector ) :
+				selector || [],
+			false
+		).length;
 	},
 
 	closest: function( selectors, context ) {
@@ -176,9 +179,7 @@ jQuery.each({
 		return jQuery.sibling( elem.firstChild );
 	},
 	contents: function( elem ) {
-		return jQuery.nodeName( elem, "iframe" ) ?
-			elem.contentDocument || elem.contentWindow.document :
-			jQuery.merge( [], elem.childNodes );
+		return elem.contentDocument || jQuery.merge( [], elem.childNodes );
 	}
 }, function( name, fn ) {
 	jQuery.fn[ name ] = function( until, selector ) {
@@ -198,8 +199,8 @@ jQuery.each({
 				jQuery.unique( matched );
 			}
 
-			// Reverse order for parents* and prev*
-			if ( name[ 0 ] === "p" ) {
+			// Reverse order for parents* and prev-derivatives
+			if ( rparentsprev.test( name ) ) {
 				matched.reverse();
 			}
 		}

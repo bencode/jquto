@@ -1,4 +1,4 @@
-# 基于jQuery 2.0.0 和 Zepto 1.0.0 的移动基础类库
+# 基于jQuery 2.0.2 和 Zepto 1.0.0 的移动基础类库
 
 
 
@@ -11,8 +11,8 @@
     
 | |   raw(byte)  |   gz(byte) |
 | ---- | ---- | ---- |
-|dist/jquto-debug.js| 221683 | 54151 |
-|dist/jquto.js| 61245 | 22029 |
+|dist/jquto-debug.js| 222617 | 54343 |
+|dist/jquto.js| 61508 | 22129 |
 
 ##### 模块说明
     
