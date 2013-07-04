@@ -4,7 +4,7 @@
  * Github: https://github.com/handyjs/jquto
  * Released under the MIT license
  *
- * Date: 2013-06-20
+ * Date: 2013-07-04
  */
 (function(window, undefined) {
     // Can't do this because several apps including ASP.NET trace
@@ -4890,7 +4890,11 @@
             $(window).on("scroll", cancelAll);
         });
     })(jQuery);
-    define("handy/jquto/1.0.1/jquto-debug", [], function(require, exports, module) {
-        module.exports = jQuery;
-    });
+    if (typeof define === "function") {
+        define("handy/jquto/1.0.1/jquto-debug", [], function(require, exports, module) {
+            module.exports = jQuery;
+        });
+    } else {
+        window.jQuto = jQuery;
+    }
 })(window);
