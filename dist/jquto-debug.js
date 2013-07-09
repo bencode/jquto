@@ -1,10 +1,10 @@
 /*!
- * jQuto JavaScript Library v1.0.1
+ * jQuto JavaScript Library v1.0.2
  * Thanks http://jquery.com/ & http://zeptojs.com !
  * Github: https://github.com/handyjs/jquto
  * Released under the MIT license
  *
- * Date: 2013-07-04
+ * Date: 2013-07-09
  */
 (function(window, undefined) {
     // Can't do this because several apps including ASP.NET trace
@@ -21,7 +21,7 @@
     _jQuery = window.jQuery, // Map over the $ in case of overwrite
     _$ = window.$, // [[Class]] -> type pairs
     class2type = {}, // List of deleted data cache ids, so we can reuse them
-    core_deletedIds = [], core_version = "1.0.1", // Save a reference to some core methods
+    core_deletedIds = [], core_version = "1.0.2", // Save a reference to some core methods
     core_concat = core_deletedIds.concat, core_push = core_deletedIds.push, core_slice = core_deletedIds.slice, core_indexOf = core_deletedIds.indexOf, core_toString = class2type.toString, core_hasOwn = class2type.hasOwnProperty, core_trim = core_version.trim, // Define a local copy of jQuery
     jQuery = function(selector, context) {
         // The jQuery object is actually just the init constructor 'enhanced'
@@ -1200,6 +1200,7 @@
             return key === undefined ? cache : cache[key];
         },
         access: function(owner, key, value) {
+            var stored;
             // In cases where either:
             //
             //   1. No key was specified
@@ -1212,7 +1213,8 @@
             //   2. The data stored at the key
             //
             if (key === undefined || key && typeof key === "string" && value === undefined) {
-                return this.get(owner, key);
+                stored = this.get(owner, key);
+                return stored !== undefined ? stored : this.get(owner, jQuery.camelCase(key));
             }
             // [*]When the key is not a string, or both a key and value
             // are specified, set or extend (existing objects) with either:
@@ -2980,7 +2982,7 @@
                         // Descend through wrappers to the right content
                         j = wrap[0];
                         while (j--) {
-                            tmp = tmp.firstChild;
+                            tmp = tmp.lastChild;
                         }
                         // Support: QtWebKit
                         // jQuery.merge because core_push.apply(_, arraylike) throws
@@ -3262,6 +3264,7 @@
             fontWeight: true,
             lineHeight: true,
             opacity: true,
+            order: true,
             orphans: true,
             widows: true,
             zIndex: true,
@@ -4891,7 +4894,7 @@
         });
     })(jQuery);
     if (typeof define === "function") {
-        define("handy/jquto/1.0.1/jquto-debug", [], function(require, exports, module) {
+        define("handy/jquto/1.0.2/jquto-debug", [], function(require, exports, module) {
             module.exports = jQuery;
         });
     } else {
