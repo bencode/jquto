@@ -45,6 +45,7 @@ module.exports = function (grunt) {
           "src/queue.js",
           "src/attributes.js",
           "src/event.js",
+          "src/event-alias.js",
           "src/traversing.js",
           "src/manipulation.js",
           "src/css.js",

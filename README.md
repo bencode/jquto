@@ -11,12 +11,12 @@
     
 | |   raw(byte)  |   gz(byte) |
 | ---- | ---- | ---- |
-|dist/jquto-debug.js| 222864 | 54401 |
-|dist/jquto.js| 61597 | 22150 |
+|dist/jquto-debug.js| 224025 | 54658 |
+|dist/jquto.js| 62241 | 22350 |
 
 ##### 模块说明
     
-* 不含jQuery模块：sizzle、event-alias、effects、deprecated、wrap
+* 不含jQuery模块：sizzle、effects、deprecated、wrap
 * 包含Zepto模块：fx.js、fx_methods.js、touch.js
 
 ##### 扩展
