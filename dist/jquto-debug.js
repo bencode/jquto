@@ -4,7 +4,7 @@
  * Github: https://github.com/handyjs/jquto
  * Released under the MIT license
  *
- * Date: 2013-07-12
+ * Date: 2013-07-17
  */
 (function(window, undefined) {
     // Can't do this because several apps including ASP.NET trace
