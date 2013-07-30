@@ -1,10 +1,10 @@
 /*!
- * jQuto JavaScript Library v1.0.2
+ * jQuto JavaScript Library v1.0.3
  * Thanks http://jquery.com/ & http://zeptojs.com !
  * Github: https://github.com/handyjs/jquto
  * Released under the MIT license
  *
- * Date: 2013-07-17
+ * Date: 2013-07-30
  */
 (function(window, undefined) {
     // Can't do this because several apps including ASP.NET trace
@@ -21,7 +21,7 @@
     _jQuery = window.jQuery, // Map over the $ in case of overwrite
     _$ = window.$, // [[Class]] -> type pairs
     class2type = {}, // List of deleted data cache ids, so we can reuse them
-    core_deletedIds = [], core_version = "1.0.2", // Save a reference to some core methods
+    core_deletedIds = [], core_version = "1.0.3", // Save a reference to some core methods
     core_concat = core_deletedIds.concat, core_push = core_deletedIds.push, core_slice = core_deletedIds.slice, core_indexOf = core_deletedIds.indexOf, core_toString = class2type.toString, core_hasOwn = class2type.hasOwnProperty, core_trim = core_version.trim, // Define a local copy of jQuery
     jQuery = function(selector, context) {
         // The jQuery object is actually just the init constructor 'enhanced'
@@ -657,10 +657,13 @@
         }
         // Not directly comparable, sort on existence of method
         return a.compareDocumentPosition ? -1 : 1;
+    }, filterVisible = function(elem) {
+        elem = jQuery(elem);
+        return !!(elem.width() || elem.height()) && elem.css("display") !== "none";
     };
     jQuery.extend({
         find: function(selector, context, results, seed) {
-            var elem, nodeType, i = 0;
+            var elem, nodeType, pseudos = [], pseudo, filterRe = /(.*):(visible|hidden|selected)/, match, temp = [], i = 0;
             results = results || [];
             context = context || document;
             // Same basic safeguard as Sizzle
@@ -671,15 +674,31 @@
             if ((nodeType = context.nodeType) !== 1 && nodeType !== 9) {
                 return [];
             }
+            //分离pseudos选择器
+            while (match = filterRe.exec(selector)) {
+                selector = match[1];
+                pseudos.push(match[2]);
+            }
+            selector || (selector = "*");
             if (seed) {
                 while (elem = seed[i++]) {
                     if (jQuery.find.matchesSelector(elem, selector)) {
-                        results.push(elem);
+                        temp.push(elem);
                     }
                 }
             } else {
-                jQuery.merge(results, context.querySelectorAll(selector));
+                jQuery.merge(temp, context.querySelectorAll(selector));
             }
+            //伪类过滤
+            if (pseudos.length) {
+                while (pseudo = pseudos.shift()) {
+                    temp = temp.filter(function(d) {
+                        var filter = jQuery.expr[":"][pseudo];
+                        return filter && filter.call(d);
+                    });
+                }
+            }
+            jQuery.merge(results, temp);
             return results;
         },
         unique: function(results) {
@@ -723,6 +742,17 @@
             return (elem.ownerDocument || elem).documentElement.nodeName !== "HTML";
         },
         expr: {
+            ":": {
+                visible: function() {
+                    return filterVisible(this);
+                },
+                hidden: function() {
+                    return !filterVisible(this);
+                },
+                selected: function() {
+                    return this.selected;
+                }
+            },
             attrHandle: {},
             match: {
                 bool: /^(?:checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped)$/i,
@@ -4918,7 +4948,7 @@
         });
     })(jQuery);
     if (typeof define === "function") {
-        define("handy/jquto/1.0.2/jquto-debug", [], function(require, exports, module) {
+        define("handy/jquto/1.0.3/jquto-debug", [], function(require, exports, module) {
             module.exports = jQuery;
         });
     } else {

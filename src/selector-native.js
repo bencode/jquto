@@ -58,11 +58,15 @@ var selector_hasDuplicate,
 
 		// Not directly comparable, sort on existence of method
 		return a.compareDocumentPosition ? -1 : 1;
-	};
+  },
+  filterVisible = function( elem ) {
+    elem = jQuery(elem)
+    return !!(elem.width() || elem.height()) && elem.css("display") !== "none"
+  };
 
 jQuery.extend({
 	find: function( selector, context, results, seed ) {
-		var elem, nodeType,
+		var elem, nodeType, pseudos = [], pseudo, filterRe = /(.*):(visible|hidden|selected)/, match, temp = [],
 			i = 0;
 
 		results = results || [];
@@ -78,17 +82,37 @@ jQuery.extend({
 			return [];
 		}
 
-		if ( seed ) {
+    //分离pseudos选择器
+    while(match = filterRe.exec(selector)) {
+      selector = match[1];
+      pseudos.push(match[2]);
+    }
+
+    selector || (selector = "*");
+
+    if ( seed ) {
 			while ( (elem = seed[i++]) ) {
 				if ( jQuery.find.matchesSelector(elem, selector) ) {
-					results.push( elem );
+					temp.push( elem );
 				}
 			}
 		} else {
-			jQuery.merge( results, context.querySelectorAll(selector) );
+			jQuery.merge( temp, context.querySelectorAll(selector) );
 		}
 
-		return results;
+    //伪类过滤
+    if (pseudos.length) {
+      while (pseudo = pseudos.shift()) {
+        temp = temp.filter(function (d) {
+          var filter = jQuery.expr[":"][pseudo];
+          return filter && filter.call(d);
+        });
+      }
+    }
+
+    jQuery.merge(results, temp);
+
+    return results;
 	},
 	unique: function( results ) {
 		var elem,
@@ -143,6 +167,11 @@ jQuery.extend({
 		return (elem.ownerDocument || elem).documentElement.nodeName !== "HTML";
 	},
 	expr: {
+    ":": {
+      visible:  function(){ return filterVisible(this) },
+      hidden:   function(){ return !filterVisible(this) },
+      selected: function(){ return this.selected }
+    },
 		attrHandle: {},
 		match: {
 			bool: /^(?:checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped)$/i,

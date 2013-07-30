@@ -11,8 +11,8 @@
     
 | |   raw(byte)  |   gz(byte) |
 | ---- | ---- | ---- |
-|dist/jquto-debug.js| 224025 | 54658 |
-|dist/jquto.js| 62241 | 22350 |
+|dist/jquto-debug.js| 225188 | 54988 |
+|dist/jquto.js| 62651 | 22528 |
 
 ##### 模块说明
     
@@ -32,7 +32,8 @@ $.support
     {"css":"-moz-","style":"Moz"}
     {"css":"","style":""}
     ```
-    
+
+* 支持 `:visible` `:hidden` `:selected` 三种常用，但CSS3不提供的伪类选择器。伪类字符串只能位于选择器字符串结尾，可以多个结合   
 * `touch`: 是否支持`ontouchstart`, `ontouchmove`, `ontouchend`, `ontouchcancel`系列特性
 * `pointer`: 是否支持Window Phone 8+ 的`MSPointerDown`, `MSPpointerMove`, `MSPointerUp`, `MSPointerCancel`系统特性
 * `transform`: 是否支持CSS3 transform特性
