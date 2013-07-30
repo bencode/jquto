@@ -92,7 +92,7 @@ jQuery.extend({
 
     if ( seed ) {
 			while ( (elem = seed[i++]) ) {
-				if ( jQuery.find.matchesSelector(elem, selector) ) {
+				if ( matches.call( elem, selector ) ) {
 					temp.push( elem );
 				}
 			}
@@ -185,7 +185,7 @@ jQuery.extend( jQuery.find, {
 		return jQuery.find( expr, null, null, elements );
 	},
 	matchesSelector: function( elem, expr ) {
-		return matches.call( elem, expr );
+    return jQuery.find(expr, null, null, [elem]);
 	},
 	attr: function( elem, name ) {
 		return elem.getAttribute( name );
