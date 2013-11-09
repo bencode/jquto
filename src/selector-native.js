@@ -185,7 +185,7 @@ jQuery.extend( jQuery.find, {
 		return jQuery.find( expr, null, null, elements );
 	},
 	matchesSelector: function( elem, expr ) {
-    return jQuery.find(expr, null, null, [elem]);
+		return jQuery.find(expr, null, null, [elem]).length > 0;
 	},
 	attr: function( elem, name ) {
 		return elem.getAttribute( name );
